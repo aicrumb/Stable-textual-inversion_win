@@ -157,10 +157,11 @@ class SpatialRescaler(nn.Module):
 
 class FrozenCLIPEmbedder(AbstractEncoder):
     """Uses the CLIP transformer encoder for text (from Hugging Face)"""
-    def __init__(self, version="openai/clip-vit-large-patch14", device="cuda", max_length=77):
+#     def __init__(self, version="openai/clip-vit-large-patch14", device="cuda", max_length=77):
+    def __init__(self, version="CompVis/stable-diffusion-v1-4", device="cuda", max_length=77): # testing to see if this works, bc i keep getting a json error
         super().__init__()
-        self.tokenizer = CLIPTokenizer.from_pretrained(version)
-        self.transformer = CLIPTextModel.from_pretrained(version)
+        self.tokenizer = CLIPTokenizer.from_pretrained(version, subfolder="text_encoder", use_auth_token=True)
+        self.transformer = CLIPTextModel.from_pretrained(version, subfolder="text_encoder", use_auth_token=True)
         self.device = device
         self.max_length = max_length
         #self.freeze()
